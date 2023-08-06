@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 
 type CreateClippingProps = Omit<React.ComponentProps<'form'>, 'onSubmit'> & {
   onSubmit: (value: string) => void;
@@ -6,6 +6,7 @@ type CreateClippingProps = Omit<React.ComponentProps<'form'>, 'onSubmit'> & {
 
 const CreateClipping = ({ onSubmit }: CreateClippingProps) => {
   const [value, setValue] = useState('');
+  const ref = useRef<HTMLInputElement>(null);
 
   return (
     <form
@@ -13,6 +14,7 @@ const CreateClipping = ({ onSubmit }: CreateClippingProps) => {
         e.preventDefault();
         onSubmit(value);
         setValue('');
+        ref.current?.focus();
       }}
       className="flex border-b-2 shadow-md border-primary-700"
     >
@@ -22,6 +24,7 @@ const CreateClipping = ({ onSubmit }: CreateClippingProps) => {
         className="w-full border-none"
         placeholder='Type a new clipping and press "Enter" to save'
         id="new-clipping"
+        ref={ref}
         onChange={(e) => setValue(e.target.value)}
       />
       <button
