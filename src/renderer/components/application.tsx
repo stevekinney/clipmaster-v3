@@ -9,7 +9,10 @@ const Application = () => {
 
   return (
     <main className="flex flex-col w-screen h-screen">
-      <header className="flex items-center h-8 font-semibold text-white bg-primary-400 ">
+      <header
+        id="titlebar"
+        className="flex items-center h-8 font-semibold text-white bg-primary-400"
+      >
         <h1 className="w-full text-center">Clipmaster</h1>
       </header>
       <CreateClipping onSubmit={addClipping} />
