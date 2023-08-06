@@ -1,4 +1,4 @@
-import { useReducer } from 'react';
+import { useCallback, useReducer } from 'react';
 import { v4 as uuid } from 'uuid';
 
 const createClipping = (value: string): Clipping => {
@@ -24,15 +24,23 @@ const clippingReducer = (clippings: Clipping[], action: ClippingAction) => {
 export const useClippings = (initialClippings: Clipping[] = []) => {
   const [clippings, dispatch] = useReducer(clippingReducer, initialClippings);
 
-  const addClipping = (value: Clipping['value']) => {
-    const clipping = createClipping(value);
-    return dispatch({ type: 'add', value: clipping.value });
-  };
+  const addClipping = useCallback(
+    (value: Clipping['value']) => {
+      const clipping = createClipping(value);
+      return dispatch({ type: 'add', value: clipping.value });
+    },
+    [dispatch],
+  );
 
-  const removeClipping = (id: string) => dispatch({ type: 'remove', id });
+  const removeClipping = useCallback(
+    (id: string) => dispatch({ type: 'remove', id }),
+    [dispatch],
+  );
 
-  const updateClipping = (id: string, value: string) =>
-    dispatch({ type: 'update', id, value });
+  const updateClipping = useCallback(
+    (id: string, value: string) => dispatch({ type: 'update', id, value }),
+    [dispatch],
+  );
 
   return {
     clippings,
