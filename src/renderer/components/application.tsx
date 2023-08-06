@@ -23,10 +23,13 @@ const Application = () => {
             id={clipping.id}
             value={clipping.value}
             onRemove={removeClipping}
+            onCopy={() => window.clipmaster.write(clipping.value)}
           />
         ))}
       </section>
-      <CopyFromClipboard />
+      <CopyFromClipboard
+        onClick={async () => addClipping(await window.clipmaster.read())}
+      />
     </main>
   );
 };
