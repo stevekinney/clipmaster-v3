@@ -15,7 +15,12 @@ const Clipping = ({ value, id, onRemove, onCopy }: ClippingProps) => {
       <div className="absolute top-0 right-0 justify-end hidden group-hover:flex">
         <button
           className="px-2 py-1 text-white rounded-none bg-error-500 hover:bg-error-600 active:bg-error-700"
-          onClick={() => onRemove(id)}
+          onClick={() => {
+            onRemove(id);
+            new Notification('Clipping deleted', {
+              body: value,
+            });
+          }}
         >
           Delete
         </button>
