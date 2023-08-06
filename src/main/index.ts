@@ -42,6 +42,12 @@ app.on('ready', () => {
     browserWindow?.webContents.send('global-copy', clipboard.readText());
   });
 
+  globalShortcut.register('Alt+CommandOrControl+Shift+1', () => {
+    const browserWindow = BrowserWindow.getFocusedWindow();
+    app.focus({ steal: true });
+    browserWindow?.focus();
+  });
+
   createWindow();
 });
 
