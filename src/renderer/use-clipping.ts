@@ -1,4 +1,4 @@
-import { useCallback, useReducer } from 'react';
+import { useCallback, useEffect, useReducer } from 'react';
 import { v4 as uuid } from 'uuid';
 
 const createClipping = (value: string): Clipping => {
@@ -41,6 +41,17 @@ export const useClippings = (initialClippings: Clipping[] = []) => {
     (id: string, value: string) => dispatch({ type: 'update', id, value }),
     [dispatch],
   );
+
+  const subscribe = useCallback(
+    (text: string) => {
+      addClipping(text);
+    },
+    [addClipping],
+  );
+
+  useEffect(() => {
+    window.clipmaster.onCopy(subscribe);
+  }, [subscribe]);
 
   return {
     clippings,

@@ -1,5 +1,11 @@
 import { join } from 'node:path';
-import { app, BrowserWindow, clipboard, ipcMain } from 'electron';
+import {
+  app,
+  BrowserWindow,
+  clipboard,
+  ipcMain,
+  globalShortcut,
+} from 'electron';
 
 const createWindow = () => {
   const mainWindow = new BrowserWindow({
@@ -30,7 +36,14 @@ const createWindow = () => {
   return mainWindow;
 };
 
-app.on('ready', createWindow);
+app.on('ready', () => {
+  globalShortcut.register('Alt+CommandOrControl+Shift+C', () => {
+    const browserWindow = BrowserWindow.getFocusedWindow();
+    browserWindow?.webContents.send('global-copy', clipboard.readText());
+  });
+
+  createWindow();
+});
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {

@@ -1,4 +1,4 @@
-import { contextBridge, ipcRenderer } from 'electron';
+import { type IpcRendererEvent, contextBridge, ipcRenderer } from 'electron';
 
 const Clipmaster = {
   read: async () => {
@@ -6,6 +6,17 @@ const Clipmaster = {
   },
   write: (text: string) => {
     ipcRenderer.send('clipboard-write', text);
+  },
+  onCopy: (listener: (text: string) => void) => {
+    const handler = (_: IpcRendererEvent, text: string) => {
+      listener(text);
+    };
+
+    ipcRenderer.on('global-copy', handler);
+
+    return () => {
+      ipcRenderer.removeListener('global-copy', handler);
+    };
   },
 } as const;
 
