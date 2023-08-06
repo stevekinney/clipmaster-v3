@@ -5,6 +5,7 @@ import {
   clipboard,
   ipcMain,
   globalShortcut,
+  Notification,
 } from 'electron';
 
 const createWindow = () => {
@@ -40,6 +41,10 @@ app.on('ready', () => {
   globalShortcut.register('Alt+CommandOrControl+Shift+C', () => {
     const browserWindow = BrowserWindow.getFocusedWindow();
     browserWindow?.webContents.send('global-copy', clipboard.readText());
+    new Notification({
+      title: 'Copied to clipboard',
+      subtitle: clipboard.readText(),
+    }).show();
   });
 
   globalShortcut.register('Alt+CommandOrControl+Shift+1', () => {
