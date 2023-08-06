@@ -1,6 +1,6 @@
 {
   "name": "clipmaster-v3",
-  "productName": "clipmaster-v3",
+  "productName": "Clipmaster",
   "version": "1.0.0",
   "description": "An application for keeping track of your clipboard history.",
   "main": ".vite/build/main.js",
