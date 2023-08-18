@@ -6,7 +6,12 @@ import {
   ipcMain,
   globalShortcut,
   Notification,
+  Tray,
+  Menu,
 } from 'electron';
+import Positioner from 'electron-positioner';
+
+let tray: Tray | null = null;
 
 const createWindow = () => {
   const mainWindow = new BrowserWindow({
@@ -19,6 +24,7 @@ const createWindow = () => {
     maximizable: false,
     titleBarStyle: 'hidden',
     titleBarOverlay: true,
+    show: false,
     webPreferences: {
       preload: join(__dirname, 'preload.js'),
     },
@@ -32,13 +38,28 @@ const createWindow = () => {
     );
   }
 
-  mainWindow.webContents.openDevTools({ mode: 'detach' });
-
   return mainWindow;
 };
 
 app.on('ready', () => {
   const browserWindow = createWindow();
+  tray = new Tray('./src/icons/trayTemplate.png');
+  tray.setIgnoreDoubleClickEvents(true);
+
+  const positioner = new Positioner(browserWindow);
+
+  tray.on('click', () => {
+    if (!tray) return;
+
+    if (browserWindow.isVisible()) {
+      return browserWindow.hide();
+    }
+
+    const trayPosition = positioner.calculate('trayCenter', tray.getBounds());
+
+    browserWindow.setPosition(trayPosition.x, trayPosition.y, false);
+    browserWindow.show();
+  });
 
   globalShortcut.register('CommandOrControl+Shift+Alt+C', () => {
     app.focus();
