@@ -26,6 +26,7 @@
     "@electron-forge/plugin-auto-unpack-natives": "^6.2.1",
     "@electron-forge/plugin-vite": "^6.2.1",
     "@tailwindcss/typography": "^0.5.9",
+    "@types/electron-positioner": "^4.1.1",
     "@types/react": "^18.2.18",
     "@types/react-dom": "^18.2.7",
     "@vitejs/plugin-react": "^4.0.4",
@@ -37,6 +38,7 @@
   "dependencies": {
     "@types/uuid": "^9.0.2",
     "clsx": "^2.0.0",
+    "electron-positioner": "^4.1.0",
     "electron-squirrel-startup": "^1.0.0",
     "electron-store": "^8.1.0",
     "react": "^18.2.0",
