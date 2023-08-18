@@ -1,5 +1,12 @@
 import { join } from 'node:path';
-import { app, BrowserWindow, clipboard, ipcMain } from 'electron';
+import {
+  app,
+  BrowserWindow,
+  clipboard,
+  ipcMain,
+  globalShortcut,
+  Notification,
+} from 'electron';
 
 const createWindow = () => {
   const mainWindow = new BrowserWindow({
@@ -30,7 +37,30 @@ const createWindow = () => {
   return mainWindow;
 };
 
-app.on('ready', createWindow);
+app.on('ready', () => {
+  const browserWindow = createWindow();
+
+  globalShortcut.register('CommandOrControl+Shift+Alt+C', () => {
+    app.focus();
+    browserWindow.show();
+    browserWindow.focus();
+  });
+
+  globalShortcut.register('CommandOrControl+Shift+Alt+X', () => {
+    let content = clipboard.readText();
+    content = content.toUpperCase();
+    clipboard.writeText(content);
+    new Notification({
+      title: 'Capitlized Clipboard',
+      subtitle: 'Copied to clipboard',
+      body: content,
+    }).show();
+  });
+});
+
+app.on('quit', () => {
+  globalShortcut.unregisterAll();
+});
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {

@@ -23,6 +23,7 @@ const Application = () => {
             id={clipping.id}
             value={clipping.value}
             onRemove={removeClipping}
+            onCopy={window.api.writeToClipboard}
           />
         ))}
       </section>
