@@ -2,10 +2,15 @@ import React from 'react';
 
 type ClippingProps = Clipping & {
   onRemove: (id: string) => void;
-  onCopy?: () => void;
+  onCopy?: (content: string) => void;
 };
 
-const Clipping = ({ value, id, onRemove, onCopy }: ClippingProps) => {
+const Clipping = ({
+  value,
+  id,
+  onRemove,
+  onCopy = () => {},
+}: ClippingProps) => {
   return (
     <article
       id={`clipping-${id}`}
@@ -19,7 +24,10 @@ const Clipping = ({ value, id, onRemove, onCopy }: ClippingProps) => {
         >
           Delete
         </button>
-        <button className="px-2 py-1 text-white rounded-none" onClick={onCopy}>
+        <button
+          className="px-2 py-1 text-white rounded-none"
+          onClick={() => onCopy(value)}
+        >
           Copy
         </button>
       </div>
