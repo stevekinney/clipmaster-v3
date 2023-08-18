@@ -3,17 +3,19 @@ import React from 'react';
 type ClippingProps = Clipping & {
   onRemove: (id: string) => void;
   onCopy?: (content: string) => void;
-};
+} & Omit<React.HTMLAttributes<HTMLElement>, 'id' | 'onCopy'>;
 
 const Clipping = ({
   value,
   id,
   onRemove,
   onCopy = () => {},
+  ...props
 }: ClippingProps) => {
   return (
     <article
       id={`clipping-${id}`}
+      {...props}
       className="relative px-4 py-2 shadow-md border-primary-500 bg-primary-100 group"
     >
       <p>{value}</p>
